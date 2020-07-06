@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 
 public class RodaServidor {
@@ -11,16 +13,17 @@ public class RodaServidor {
 	public static void main(String [] args) throws UnknownHostException, IOException {
 		
 		ServerSocket server = new ServerSocket(12345);
-		String listaDeArquivos = "arquivo1.txt";
+		String listaDeArquivos="src/Questao3/Arquivo.txt";
 	     while(true){
 	       System.out.println("Aguardando conexão...");
 	       Socket con = server.accept();
+	       clientes.add(con);
 	       System.out.println("Cliente conectado...");
-	       Servidor.cont++;
-	       Servidor servidor= new Servidor(con,listaDeArquivos);
-	       Thread t1;
-	       t1 = new Thread(servidor);
-	       t1.start();   
+	       Servidor servidor = new Servidor();
+	       Thread t= new Thread(new Servidor(cliente, listaDeArquivos));
+	       t.start();
+	       
+	    
 	    }
 	}
 	
