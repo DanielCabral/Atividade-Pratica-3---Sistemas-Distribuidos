@@ -76,14 +76,12 @@ public Socket getCliente() {
 	 oss.writeObject(mensagem);
  }
  
- public void enviar(String mensagem) throws IOException {
+ public void enviar(String listaDeArquivos) throws IOException {
 	 PrintStream saida = new PrintStream(this.socketCliente.getOutputStream());
-	 System.out.println("Enviando mensagem para cliente "+socketCliente.getInetAddress().getHostAddress()+" : "+mensagem);
-	 mensagem="mens-"+mensagem;
-	 //saida.println(mensagem);
+	 System.out.println("Enviando mensagem para cliente "+socketCliente.getInetAddress().getHostAddress()+" : "+listaDeArquivos);
 	 ObjectOutputStream oss=new ObjectOutputStream(socketCliente.getOutputStream());
 	 	
-	 oss.writeObject(mensagem);
+	 oss.writeObject(listaDeArquivos);
  }
  
  public void enviar() throws IOException {
