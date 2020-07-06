@@ -7,7 +7,7 @@ public class Arquivo implements Serializable {
 	private static final long serialVersionUID = 1L;
     
 	   private String nome;
-	   private byte[] conteudo;
+	   private String conteudo;
 	   private transient long tamanhoKB;
 	   public String getNome() {
 	             return nome;
@@ -15,10 +15,10 @@ public class Arquivo implements Serializable {
 	   public void setNome(String nome) {
 	             this.nome = nome;
 	   }
-	   public byte[] getConteudo() {
+	   public String  getConteudo() {
 	             return conteudo;
 	   }
-	   public void setConteudo(byte[] conteudo) {
+	   public void setConteudo(String conteudo) {
 	             this.conteudo = conteudo;
 	   }
 	   public long getTamanhoKB() {

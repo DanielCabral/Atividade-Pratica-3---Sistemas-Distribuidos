@@ -4,6 +4,7 @@ import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
 import java.io.PrintStream;
 import java.net.Socket;
 import java.util.Scanner;
@@ -32,50 +33,27 @@ public void run() {
 			@Override
 			public void run() {
 				try {
-					Scanner s = null;
-					s = new Scanner(cliente.getInputStream());
-					String rcv;
-					 //Exibe mensagem no console
-					while(s.hasNextLine()){
-						rcv = s.nextLine();
-						
-					    
-						if(rcv instanceof String) {
-							System.out.println("rcv: "+rcv);
-							String conteudo[] = rcv.split("-");
-							String tipoDeMensagem= "";
-							String content="";
-							String nomeArquivo="";
-							
-							if(conteudo.length > 0) {
-								System.out.println(conteudo.length);
-								tipoDeMensagem = conteudo[0];							
-								content= tipoDeMensagem.equals("file")?conteudo[2]:conteudo[1];
-								nomeArquivo = tipoDeMensagem.equals("file")?conteudo[1]:"";
-							}
-							
-							if(tipoDeMensagem.equals("file")) {
-									System.out.println("Gravando arquivo "+nomeArquivo+" com conteudo: "+content);
-								 	FileOutputStream fos = new FileOutputStream("src/Questao3/"+nomeArquivo);
-								    BufferedOutputStream bos = new BufferedOutputStream(fos);
-	
-								    bos.write(content.getBytes());							    
-								    bos.close();
-								    fos.close();
-							}
-							
-							System.out.println("Mensagem recebida...");
-							String message= (String) rcv;
-							if (message.equalsIgnoreCase("fim"))
-								break;
-							else
-								System.out.println(rcv);
+					Object rcv;
+					Socket s=cliente;
+					
+					while(true){
+						ObjectInputStream is=new ObjectInputStream(s.getInputStream());
+						rcv = is.readObject();
+						//rcv = s.nextLine();
+						System.out.println(rcv);
+						System.out.println(rcv.getClass());
+						if(rcv instanceof Arquivo) {
+							Arquivo arquivo= (Arquivo)  rcv;
+							System.out.println(arquivo.getNome());
+							System.out.println(arquivo.getConteudo());
 						}
-
+						is=null;
+						
 					}
-					//Finaliza scanner e socket
-					s.close();
 				} catch (IOException e) {
+					e.printStackTrace();
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
